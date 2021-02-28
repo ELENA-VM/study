@@ -294,3 +294,5 @@ cprint('Всего куплено еды {}'.format(home.total_eat), color='yell
 cprint('Всего куплено шуб {}'.format(masha.total_coat), color='yellow')
 
 
+
+

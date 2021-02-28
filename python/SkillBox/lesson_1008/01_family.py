@@ -42,30 +42,6 @@ from random import randint
 #
 # Подвести итоги жизни за год: сколько было заработано денег, сколько сьедено еды, сколько куплено шуб.
 
-######################################################## Часть вторая
-#
-# После подтверждения учителем первой части надо
-# отщепить ветку develop и в ней начать добавлять котов в модель семьи
-#
-# Кот может:
-#   есть,
-#   спать,
-#   драть обои
-#
-# Люди могут:
-#   гладить кота (растет степень счастья на 5 пунктов)
-#
-# В доме добавляется:
-#   еда для кота (в начале - 30)
-#
-# У кота есть имя и степень сытости (в начале - 30)
-# Любое действие кота, кроме "есть", приводит к уменьшению степени сытости на 10 пунктов
-# Еда для кота покупается за деньги: за 10 денег 10 еды.
-# Кушает кот максимум по 10 единиц еды, степень сытости растет на 2 пункта за 1 пункт еды.
-# Степень сытости не должна падать ниже 0, иначе кот умрет от голода.
-#
-# Если кот дерет обои, то грязи становится больше на 5 пунктов
-
 class Man:
     def __init__(self, name, house):
         self.name = name
@@ -227,6 +203,31 @@ class Wife(Man):
 
         print(f'{self.name} уборка квартиры: fullness {self.fullness} dirt {self.house.dirt}')
 
+class Child(Man):
+
+    def __init__(self, name, house):
+        self.happiness = 100
+        self.fullness = 10
+        self.house = house
+        self.name = name
+
+    def __str__(self):
+        return super().__str__()
+
+    def act(self):
+        if self.fullness <= 10:
+            self.eat()
+        else:
+            self.sleep()
+
+    def eat(self):
+        self.fullness += 10
+        print(f'{self.name} покушал: fullness {self.fullness} ')
+
+    def sleep(self):
+        self.fullness -= 5
+        print(f'{self.name} поспал: fullness {self.fullness} ')
+
 
 class Cat:
 
@@ -273,6 +274,7 @@ home = House()
 serge = Husband(name='Сережа', house=home)
 masha = Wife(name='Маша', house=home)
 jack = Cat(name='Jack', house=home)
+baby = Child(name='Саша', house=home)
 
 for day in range(365):
     cprint('================== День {} =================='.format(day), color='red')
@@ -280,12 +282,15 @@ for day in range(365):
     serge.act()
     masha.act()
     jack.act()
+    baby.act()
     cprint(serge, color='cyan')
     cprint(masha, color='cyan')
     cprint(jack, color='cyan')
+    cprint(baby, color='cyan')
     cprint(home, color='cyan')
 
 cprint('Всего заработано денег {}'.format(home.total_money), color='yellow')
 cprint('Всего куплено еды {}'.format(home.total_eat), color='yellow')
 cprint('Всего куплено шуб {}'.format(masha.total_coat), color='yellow')
+
 
